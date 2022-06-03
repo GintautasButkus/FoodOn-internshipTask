@@ -9,18 +9,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lt.vtmc.GintautasButkus.PayloadRequest.LoginRequest;
-import lt.vtmc.GintautasButkus.PayloadRequest.SignupRequest;
 import lt.vtmc.GintautasButkus.Services.AdminService;
 import lt.vtmc.GintautasButkus.Services.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Api(value = "", tags = { "New User Registry / Login / Logout" })
-@Tag(name = "New User Registry / Login / Logout", description = "Ignitis Users")
+@Tag(name = "New User Registry / Login / Logout", description = "Food On App Users")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -38,11 +36,7 @@ public class AuthController {
 		return userService.authenticateUser(signUpRequest);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping("/signup")
-	public ResponseEntity<?> createUser(@Valid @RequestBody SignupRequest signUpRequest) {
-		return adminService.registerUser(signUpRequest);
-	}
+	
 
 
 

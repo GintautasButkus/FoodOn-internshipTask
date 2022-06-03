@@ -19,7 +19,10 @@ import lt.vtmc.GintautasButkus.Models.User;
 import lt.vtmc.GintautasButkus.PayloadRequest.SignupRequest;
 import lt.vtmc.GintautasButkus.PayloadResponse.MessageResponse;
 import lt.vtmc.GintautasButkus.Repositories.UserRepository;
+import lt.vtmc.GintautasButkus.Repositories.RestaurantRepository;
 import lt.vtmc.GintautasButkus.Repositories.RoleRepository;
+import lt.vtmc.GintautasButkus.Repositories.DishRepository;
+import lt.vtmc.GintautasButkus.Repositories.MenuRepository;
 import lt.vtmc.GintautasButkus.Security.JWT.JwtUtils;
 
 @Service
@@ -40,6 +43,14 @@ public class AdminService {
 	@Autowired
 	JwtUtils jwtUtils;
 
+	@Autowired
+	RestaurantRepository restaurantRepository;
+	
+	@Autowired
+	MenuRepository menuRepository;
+	
+	@Autowired
+	DishRepository dishRepository;
 
 // ************************* CREATE ADMIN USER WHEN APP STARTS ***********************
 	@PostConstruct
@@ -54,8 +65,7 @@ public class AdminService {
 	}
 
 //	******************** REGISTER NEW USER **********************************
-
-	public ResponseEntity<?> registerUser(SignupRequest signUpRequest) {
+	public ResponseEntity<?> registerUserOrAdmin(SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
 		}
@@ -93,7 +103,6 @@ public class AdminService {
 	}
 
 //	**************** DELETE USER ******************************
-
 	public void deleteUser(Long id) {
 		if (userRepository.existsById(id)) {
 			Set<Role> emptyRoles = new HashSet<Role>();
@@ -103,7 +112,20 @@ public class AdminService {
 			throw new NoUserExistsException("Sorry, there is no such user.");
 		}
 	}
+	
+	
+	
+	
 
+	
+	
+	
+	
+	
+
+	
+	
+	
 
 
 }
