@@ -1,4 +1,4 @@
-# FoodOn - projectof the internal internship for slower people :)
+# FoodOn -internal internship project for slower people :)
 
 Project can be tested via Swagger link http://localhost:8080/swagger-ui/
 
