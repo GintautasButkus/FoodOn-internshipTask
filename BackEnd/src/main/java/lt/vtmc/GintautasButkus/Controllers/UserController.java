@@ -56,7 +56,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/create_order/{quantity}/{dishId}")
-	public void createUser(@PathVariable int quantity, @PathVariable Long dishId, @RequestBody OrderItem orderItemDetails) {
+	public void createOrder(@PathVariable int quantity, @PathVariable Long dishId, @RequestBody OrderItem orderItemDetails) {
 		userService.selectItemToOrder(dishId, quantity, orderItemDetails);
 	}
 	
