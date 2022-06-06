@@ -22,7 +22,7 @@ public class Dish {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long dishId;
+	private Long id;
 
 	@NotBlank
 	@Size(max = 20)
@@ -40,12 +40,13 @@ public class Dish {
 	
 	
 
+
 	public Long getId() {
-		return dishId;
+		return id;
 	}
 
 	public void setId(Long id) {
-		this.dishId = id;
+		this.id = id;
 	}
 
 	public String getDishName() {

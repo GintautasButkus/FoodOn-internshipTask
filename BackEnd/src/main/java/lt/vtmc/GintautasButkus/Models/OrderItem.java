@@ -1,10 +1,9 @@
 package lt.vtmc.GintautasButkus.Models;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,51 +11,63 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sun.istack.NotNull;
 
 
 @Entity
-@Table(name = "Order Items")
+@Table(name = "orderitems")
 public class OrderItem {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long orderItemId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer orderItemId;
 
-	@NotBlank
-	private int quantity;
-	
-	@NotBlank
-	private LocalDateTime orderItemDate;
+    @Column(name = "dishId")
+    private @NotNull Long dishId;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "dishId", referencedColumnName = "dishId")
-	private Dish dish;
-	
-//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-//	@JoinColumn(name = "orderId", nullable = true)
-//	@OnDelete(action = OnDeleteAction.CASCADE)
-//	@JsonIgnore
-//	private Order order;
-	
-	public OrderItem() {}
+    @Column(name = "quantity")
+    private @NotNull int quantity;
 
-	public OrderItem(@NotBlank int quantity, @NotBlank LocalDateTime orderItemDate) {
-		this.quantity = quantity;
-		this.orderItemDate = orderItemDate;
-	}
+    @Column(name = "order_id")
+    private Integer orderId;
 
-	public Long getOrderItemId() {
+    @Column(name = "created_date")
+    private Date createdDate;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id",referencedColumnName = "id",insertable = false,updatable = false)
+    private Order order;
+
+    @OneToOne
+    @JoinColumn(name = "dish_Dish_id",referencedColumnName = "id",insertable = false,updatable = false)
+    private Dish dish;
+
+    public OrderItem(){}
+
+    public OrderItem(Integer orderId, @NotNull Long dish_id, @NotNull int quantity) {
+        this.dishId = dish_id;
+        this.quantity = quantity;
+        this.orderId=orderId;
+        this.createdDate = new Date();
+    }
+
+	public Integer getOrderItemId() {
 		return orderItemId;
 	}
 
-	public void setOrderItemId(Long orderItemId) {
+	public void setOrderItemId(Integer orderItemId) {
 		this.orderItemId = orderItemId;
+	}
+
+	
+
+	public Long getDishId() {
+		return dishId;
+	}
+
+	public void setDishId(Long dishId) {
+		this.dishId = dishId;
 	}
 
 	public int getQuantity() {
@@ -67,12 +78,28 @@ public class OrderItem {
 		this.quantity = quantity;
 	}
 
-	public LocalDateTime getOrderItemDate() {
-		return orderItemDate;
+	public Integer getOrderId() {
+		return orderId;
 	}
 
-	public void setOrderItemDate(LocalDateTime orderItemDate) {
-		this.orderItemDate = orderItemDate;
+	public void setOrderId(Integer orderId) {
+		this.orderId = orderId;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 
 	public Dish getDish() {
@@ -82,7 +109,8 @@ public class OrderItem {
 	public void setDish(Dish dish) {
 		this.dish = dish;
 	}
-	
+    
+    
 	
 	
 	

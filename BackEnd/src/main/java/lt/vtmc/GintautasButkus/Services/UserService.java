@@ -32,15 +32,15 @@ import lt.vtmc.GintautasButkus.PayloadRequest.LoginRequest;
 import lt.vtmc.GintautasButkus.PayloadRequest.SignupRequest;
 import lt.vtmc.GintautasButkus.PayloadResponse.MessageResponse;
 import lt.vtmc.GintautasButkus.PayloadResponse.UserInfoResponse;
-import lt.vtmc.GintautasButkus.Repositories.RoleRepository;
-import lt.vtmc.GintautasButkus.Repositories.UserRepository;
-import lt.vtmc.GintautasButkus.Security.JWT.JwtUtils;
-import lt.vtmc.GintautasButkus.Security.Services.UserDetailsImpl;
-import lt.vtmc.GintautasButkus.Repositories.RestaurantRepository;
 import lt.vtmc.GintautasButkus.Repositories.DishRepository;
 import lt.vtmc.GintautasButkus.Repositories.MenuRepository;
 import lt.vtmc.GintautasButkus.Repositories.OrderItemRepository;
 import lt.vtmc.GintautasButkus.Repositories.OrderRepository;
+import lt.vtmc.GintautasButkus.Repositories.RestaurantRepository;
+import lt.vtmc.GintautasButkus.Repositories.RoleRepository;
+import lt.vtmc.GintautasButkus.Repositories.UserRepository;
+import lt.vtmc.GintautasButkus.Security.Services.UserDetailsImpl;
+import lt.vtmc.GintautasButkus.Security.JWT.JwtUtils;
 
 
 
@@ -170,40 +170,34 @@ public class UserService {
 		}
 	}
 	
-//	**************** SELECT DISH TO ORDER ********************************************
-	public void selectItemToOrder(Long dishId, int quantity,  OrderItem orderItemDetails) {
-		OrderItem orderItem = dishRepository.findById(dishId).map(dish -> {
-			orderItemDetails.setOrderItemDate(LocalDateTime.now());
-			orderItemDetails.setQuantity(quantity);
-			orderItemDetails.setDish(dish);
-			return orderItemRepository.save(orderItemDetails);
-		}).orElseThrow(() -> new NoDishExistException("No client exists with such ID " + dishId));
+//	**************** SAVE ITEM IN ORDER  ********************************************
+	public void addOrderedProducts(OrderItem orderItem) {
 		orderItemRepository.save(orderItem);
 	}
 	
-//	*************** SUBMIT ORDER *****************************************************
-	public static long getCurrentUserId() {
-		long currentUserId= -1;
-		Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (authentication instanceof UserDetails) {
-			String userName = ((UserDetails) authentication).getUsername();
-			currentUserId = userRepository.findAll().stream().filter(user -> user.getUsername().equals(userName)).findFirst().get().getId();
-		} else {
-			currentUserId = -1;
-		}
-		return currentUserId;
-	}
-	
-	
-	public void submitOrder(Order orderDetails) {
-		Long userId = getCurrentUserId();
-		Order order = userRepository.findById(userId).map(user -> {
-			orderDetails.setOrderDate(LocalDateTime.now());
-			orderDetails.setOrderStatus("In Progress");
-			orderDetails.setUser(user);
-			return orderRepository.save(orderDetails);
-		}).orElseThrow(() -> new NoDishExistException("No dish"));
-		orderRepository.save(order);
-	}
+////	*************** SUBMIT ORDER *****************************************************
+//	public static long getCurrentUserId() {
+//		long currentUserId= -1;
+//		Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if (authentication instanceof UserDetails) {
+//			String userName = ((UserDetails) authentication).getUsername();
+//			currentUserId = userRepository.findAll().stream().filter(user -> user.getUsername().equals(userName)).findFirst().get().getId();
+//		} else {
+//			currentUserId = -1;
+//		}
+//		return currentUserId;
+//	}
+//	
+//	
+//	public void submitOrder(Order orderDetails) {
+//		Long userId = getCurrentUserId();
+//		Order order = userRepository.findById(userId).map(user -> {
+//			orderDetails.setOrderDate(LocalDateTime.now());
+//			orderDetails.setOrderStatus("In Progress");
+//			orderDetails.setUser(user);
+//			return orderRepository.save(orderDetails);
+//		}).orElseThrow(() -> new NoDishExistException("No dish"));
+//		orderRepository.save(order);
+//	}
 
 }

@@ -54,11 +54,11 @@ public class UserController {
 	public List<Menu> getRestaurantMenus(@PathVariable Long id) {
 		return userService.getMenu(id);
 	}
-	
-	@PostMapping("/create_order/{quantity}/{dishId}")
-	public void createOrder(@PathVariable int quantity, @PathVariable Long dishId, @RequestBody OrderItem orderItemDetails) {
-		userService.selectItemToOrder(dishId, quantity, orderItemDetails);
-	}
+//	
+//	@PostMapping("/create_order/{quantity}/{dishId}")
+//	public void createOrder(@PathVariable int quantity, @PathVariable Long dishId, @RequestBody OrderItem orderItemDetails) {
+//		userService.selectItemToOrder(dishId, quantity, orderItemDetails);
+//	}
 	
 
 

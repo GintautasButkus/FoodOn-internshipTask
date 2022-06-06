@@ -1,9 +1,11 @@
 package lt.vtmc.GintautasButkus.Models;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -20,58 +22,71 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lt.vtmc.GintautasButkus.dto.PlaceOrderDto;
+
 @Entity
 @Table(name = "order")
 public class Order {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long orderId;
-	
-	@NotBlank
-	private LocalDateTime orderDate;
-	
-	@NotBlank
-	private String orderStatus;
-	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "userId", nullable = false)
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@JsonIgnore
+	private Integer id;
+
+	@Column(name = "user_id")
+	private @NotBlank Long userId;
+
+	@Column(name = "created_date")
+	private Date createdDate;
+
+
+
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "order_id", referencedColumnName = "id", insertable = false, updatable = false)
+	private List<OrderItem> orderItems;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
 	private User user;
-	
-	@OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinColumn(name = "orderId",referencedColumnName = "orderId",insertable = false,updatable = false)
-    private List<OrderItem> orderItems;
-	
-	public Order() {}
 
-	public Order(@NotBlank LocalDateTime orderDate) {
-		this.orderDate = LocalDateTime.now();
+	public Order() {
 	}
 
-	public Long getOrderId() {
-		return orderId;
+	public Order(PlaceOrderDto orderDto, @NotBlank Long userId) {
+		this.userId = userId;
+		this.createdDate = new Date();
 	}
 
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
+	public Integer getId() {
+		return id;
 	}
 
-	public LocalDateTime getOrderDate() {
-		return orderDate;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
-	public void setOrderDate(LocalDateTime orderDate) {
-		this.orderDate = orderDate;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public String getOrderStatus() {
-		return orderStatus;
+	public void setUserId(@NotBlank Long userId) {
+		this.userId = userId;
 	}
 
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+
+	public List<OrderItem> getOrderItems() {
+		return orderItems;
+	}
+
+	public void setOrderItems(List<OrderItem> orderItems) {
+		this.orderItems = orderItems;
 	}
 
 	public User getUser() {
@@ -81,7 +96,4 @@ public class Order {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
-	
-	
 }

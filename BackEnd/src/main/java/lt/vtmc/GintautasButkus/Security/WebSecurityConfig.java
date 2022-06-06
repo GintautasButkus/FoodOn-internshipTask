@@ -23,6 +23,7 @@ import lt.vtmc.GintautasButkus.Security.JWT.AuthTokenFilter;
 import lt.vtmc.GintautasButkus.Security.Services.UserDetailsServiceImpl;
 
 
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

@@ -17,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import lt.vtmc.GintautasButkus.Security.Services.UserDetailsServiceImpl;
 
 
+
 public class AuthTokenFilter extends OncePerRequestFilter {
   @Autowired
   private JwtUtils jwtUtils;
