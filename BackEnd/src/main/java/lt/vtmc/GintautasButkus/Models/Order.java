@@ -1,47 +1,42 @@
 package lt.vtmc.GintautasButkus.Models;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lt.vtmc.GintautasButkus.dto.PlaceOrderDto;
 
 @Entity
 @Table(name = "order")
 public class Order {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private String id;
 
 	@Column(name = "user_id")
 	private @NotBlank Long userId;
 
 	@Column(name = "created_date")
-	private Date createdDate;
-
-
+	private LocalDateTime createdDate;
+	
+	@NotNull
+	@Column(name = "status")
+	private String status;
 
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "order_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@JsonIgnore
 	private List<OrderItem> orderItems;
 
 	@ManyToOne(cascade = CascadeType.ALL)
@@ -51,16 +46,18 @@ public class Order {
 	public Order() {
 	}
 
-	public Order(PlaceOrderDto orderDto, @NotBlank Long userId) {
+	public Order(String id, @NotBlank Long userId, LocalDateTime createdDate, String status) {
+		this.id = id;
 		this.userId = userId;
-		this.createdDate = new Date();
+		this.createdDate = createdDate;
+		this.status = status;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -72,11 +69,11 @@ public class Order {
 		this.userId = userId;
 	}
 
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -96,4 +93,14 @@ public class Order {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(@NotNull String status) {
+		this.status = status;
+	}
+	
+	
 }

@@ -1,6 +1,6 @@
 package lt.vtmc.GintautasButkus.Models;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,43 +14,35 @@ import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
 
-
 @Entity
 @Table(name = "orderitems")
 public class OrderItem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer orderItemId;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer orderItemId;
 
-    @Column(name = "dishId")
-    private @NotNull Long dishId;
+	@Column(name = "quantity")
+	private @NotNull int quantity;
 
-    @Column(name = "quantity")
-    private @NotNull int quantity;
+	@Column(name = "created_date")
+	private LocalDateTime createdDate;
 
-    @Column(name = "order_id")
-    private Integer orderId;
+	@ManyToOne
+	@JoinColumn(name = "order_id", referencedColumnName = "id", insertable = true, updatable = true)
+	private Order order;
 
-    @Column(name = "created_date")
-    private Date createdDate;
+	@OneToOne
+	@JoinColumn(name = "dish_id", referencedColumnName = "id", insertable = true, updatable = true)
+	private Dish dish;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id",referencedColumnName = "id",insertable = false,updatable = false)
-    private Order order;
+	public OrderItem() {
+	}
 
-    @OneToOne
-    @JoinColumn(name = "dish_Dish_id",referencedColumnName = "id",insertable = false,updatable = false)
-    private Dish dish;
-
-    public OrderItem(){}
-
-    public OrderItem(Integer orderId, @NotNull Long dish_id, @NotNull int quantity) {
-        this.dishId = dish_id;
-        this.quantity = quantity;
-        this.orderId=orderId;
-        this.createdDate = new Date();
-    }
+	public OrderItem(@NotNull int quantity, @NotNull LocalDateTime createDate) {
+		this.quantity = quantity;
+		this.createdDate = createDate;
+	}
 
 	public Integer getOrderItemId() {
 		return orderItemId;
@@ -58,16 +50,6 @@ public class OrderItem {
 
 	public void setOrderItemId(Integer orderItemId) {
 		this.orderItemId = orderItemId;
-	}
-
-	
-
-	public Long getDishId() {
-		return dishId;
-	}
-
-	public void setDishId(Long dishId) {
-		this.dishId = dishId;
 	}
 
 	public int getQuantity() {
@@ -78,19 +60,11 @@ public class OrderItem {
 		this.quantity = quantity;
 	}
 
-	public Integer getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
-	}
-
-	public Date getCreatedDate() {
+	public LocalDateTime getCreatedDate() {
 		return createdDate;
 	}
 
-	public void setCreatedDate(Date createdDate) {
+	public void setCreatedDate(LocalDateTime createdDate) {
 		this.createdDate = createdDate;
 	}
 
@@ -109,11 +83,5 @@ public class OrderItem {
 	public void setDish(Dish dish) {
 		this.dish = dish;
 	}
-    
-    
-	
-	
-	
-	
 
 }

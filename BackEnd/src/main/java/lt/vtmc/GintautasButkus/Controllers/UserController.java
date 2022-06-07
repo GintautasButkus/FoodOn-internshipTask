@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lt.vtmc.GintautasButkus.Models.Menu;
-import lt.vtmc.GintautasButkus.Models.OrderItem;
 import lt.vtmc.GintautasButkus.Models.Restaurant;
 import lt.vtmc.GintautasButkus.PayloadRequest.SignupRequest;
 import lt.vtmc.GintautasButkus.Services.UserService;

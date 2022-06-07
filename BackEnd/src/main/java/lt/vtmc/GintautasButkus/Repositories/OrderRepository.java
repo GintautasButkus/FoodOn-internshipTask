@@ -9,8 +9,8 @@ import lt.vtmc.GintautasButkus.Models.Order;
 
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Long> {
-	List<Order> findAllByUserIdOrderByCreatedDateDesc(Long userId);
+public interface OrderRepository extends JpaRepository<Order, String> {
+	List<Order> findAllByUserId(Long userId);
 
 
 }

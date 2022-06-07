@@ -1,6 +1,5 @@
 package lt.vtmc.GintautasButkus.Services;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,13 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import lt.vtmc.GintautasButkus.Exceptions.NoDishExistException;
 import lt.vtmc.GintautasButkus.Exceptions.NoMenuExistsException;
 import lt.vtmc.GintautasButkus.Exceptions.NoRestaurantExistsException;
 import lt.vtmc.GintautasButkus.Models.ERole;
 import lt.vtmc.GintautasButkus.Models.Menu;
-import lt.vtmc.GintautasButkus.Models.Order;
-import lt.vtmc.GintautasButkus.Models.OrderItem;
 import lt.vtmc.GintautasButkus.Models.Restaurant;
 import lt.vtmc.GintautasButkus.Models.Role;
 import lt.vtmc.GintautasButkus.Models.User;
@@ -51,7 +47,6 @@ public class UserService {
 	AuthenticationManager authenticationManager;
 
 	@Autowired
-	static
 	UserRepository userRepository;
 
 	@Autowired
@@ -85,7 +80,7 @@ public class UserService {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
 		}
-		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+		if (userRepository.existsByEmail(signUpRequest.getEmail()).booleanValue()) {
 			return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
 		}
 		User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail(),
@@ -170,34 +165,15 @@ public class UserService {
 		}
 	}
 	
-//	**************** SAVE ITEM IN ORDER  ********************************************
-	public void addOrderedProducts(OrderItem orderItem) {
-		orderItemRepository.save(orderItem);
+//	******************* GET LOGGED-in USER ID ***********************************************
+	public String getUsername() {
+		String username = null;
+		Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (authentication instanceof UserDetails) {
+			username = ((UserDetails) authentication).getUsername();
+		} else {
+			username = authentication.toString();
+		}
+		return username;
 	}
-	
-////	*************** SUBMIT ORDER *****************************************************
-//	public static long getCurrentUserId() {
-//		long currentUserId= -1;
-//		Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		if (authentication instanceof UserDetails) {
-//			String userName = ((UserDetails) authentication).getUsername();
-//			currentUserId = userRepository.findAll().stream().filter(user -> user.getUsername().equals(userName)).findFirst().get().getId();
-//		} else {
-//			currentUserId = -1;
-//		}
-//		return currentUserId;
-//	}
-//	
-//	
-//	public void submitOrder(Order orderDetails) {
-//		Long userId = getCurrentUserId();
-//		Order order = userRepository.findById(userId).map(user -> {
-//			orderDetails.setOrderDate(LocalDateTime.now());
-//			orderDetails.setOrderStatus("In Progress");
-//			orderDetails.setUser(user);
-//			return orderRepository.save(orderDetails);
-//		}).orElseThrow(() -> new NoDishExistException("No dish"));
-//		orderRepository.save(order);
-//	}
-
 }
