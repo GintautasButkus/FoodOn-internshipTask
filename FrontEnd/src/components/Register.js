@@ -11,12 +11,13 @@ import axios from "../api/axios";
 import Button from "react-bootstrap/Button";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import bg from "../img/registration_bg.jpg"
 
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
-const FIRST_NAME_REGEX = /^[A-z]{2,23}$/;
-const LAST_NAME_REGEX = /^[A-z]{2,23}$/;
+const EMAIL_NAME_REGEX = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/;
+// const ROLE_REGEX = /^[A-z]{4,15}$/;
 const REGISTER_URL = "/api/auth/user/signup";
 
 const Register = () => {
@@ -31,13 +32,13 @@ const Register = () => {
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
 
-  const [userFirstName, setFirstName] = useState("");
-  const [validFirstName, setValidFirstName] = useState(false);
-  const [firstNameFocus, setFirstNameFocus] = useState(false);
+  const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
+  const [emailFocus, setEmailFocus] = useState(false);
 
-  const [userLastName, setLastName] = useState("");
-  const [validLastName, setValidLastName] = useState(false);
-  const [lastNameFocus, setLastNameFocus] = useState(false);
+  // const [role, setRole] = useState("");
+  // const [validRole, setValidRole] = useState(false);
+  // const [roleFocus, setRoleFocus] = useState(false);
 
   const [matchPwd, setMatchPwd] = useState("");
   const [validMatch, setValidMatch] = useState(false);
@@ -58,18 +59,18 @@ const Register = () => {
   }, [userName]);
 
   useEffect(() => {
-    const result = FIRST_NAME_REGEX.test(userFirstName);
+    const result = EMAIL_NAME_REGEX.test(email);
     console.log(result);
-    console.log(userFirstName);
-    setValidFirstName(result);
-  }, [userFirstName]);
+    console.log(email);
+    setValidEmail(result);
+  }, [email]);
 
-  useEffect(() => {
-    const result = LAST_NAME_REGEX.test(userLastName);
-    console.log(result);
-    console.log(userLastName);
-    setValidLastName(result);
-  }, [userLastName]);
+  // useEffect(() => {
+  //   const result = ROLE_REGEX.test(role);
+  //   console.log(result);
+  //   console.log(role);
+  //   setValidRole(result);
+  // }, [role]);
 
   useEffect(() => {
     const result = PWD_REGEX.test(userPassword);
@@ -90,9 +91,9 @@ const Register = () => {
     // if button enabled with JS hack
     const v1 = USER_REGEX.test(userName);
     const v2 = PWD_REGEX.test(userPassword);
-    const v3 = FIRST_NAME_REGEX.test(userFirstName);
-    const v4 = LAST_NAME_REGEX.test(userLastName);
-    if (!v1 || !v2 || !v3 || !v4) {
+    const v3 = EMAIL_NAME_REGEX.test(email);
+    // const v4 = ROLE_REGEX.test(role);
+    if (!v1 || !v2 || !v3) {
       setErrMsg("Neteisingai suvesti duomenys");
       return;
     }
@@ -100,7 +101,7 @@ const Register = () => {
     try {
       const response = await axios.post(
         REGISTER_URL,
-        JSON.stringify({ userName, userPassword, userFirstName, userLastName }),
+        JSON.stringify({ username: userName, password: userPassword, email }),
         {
           headers: {
             "Content-Type": "application/json",
@@ -125,13 +126,23 @@ const Register = () => {
     }
   };
 
+  const style = {
+    backgroundImage: "url(" + bg + ")",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    position: "relative",
+    height: "100vh",
+    // width: "100%",
+    // display: "inline-block"
+  }
+
   return (
-    <>
+    <div style={style}>
       {success ? (
         <section className="hello">
-          <h1>Sveiki, {userFirstName}!</h1>
+          <h1>Sveiki, {userName}!</h1>
           <p>
-            <a href="#">Prisijungti</a>
+            <Link to="/">Prisijungti</Link>
           </p>
         </section>
       ) : (
@@ -190,95 +201,94 @@ const Register = () => {
               Leidžiami simboliai: raidės, skaitmenys, brūkšniai ir apatiniai brūkšneliai.
             </p>
 
-            {/* ************* FIRST NAME ********************************* */}
+            {/* ************* EMAIL ********************************* */}
 
             <Form.Group className="mb-3">
-              <Form.Label htmlFor="first_name">
-                Vardas:
+              <Form.Label htmlFor="email">
+                El. paštas:
                 <FontAwesomeIcon
                   icon={faCheck}
-                  className={validFirstName ? "valid" : "hide"}
+                  className={validEmail ? "valid" : "hide"}
                 />
                 <FontAwesomeIcon
                   icon={faTimes}
                   className={
-                    validFirstName || !userFirstName ? "hide" : "invalid"
+                    validEmail || !email ? "hide" : "invalid"
                   }
                 />
               </Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Vardas"
-                id="first_name"
+                type="email"
+                placeholder="El. paštas"
+                id="email"
                 ref={userRef}
                 autoComplete="on"
-                onChange={(e) => setFirstName(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 required
-                aria-invalid={validFirstName ? "false" : "true"}
+                aria-invalid={validEmail ? "false" : "true"}
                 aria-describedby="uidnote"
-                onFocus={() => setFirstNameFocus(true)}
-                onBlur={() => setFirstNameFocus(false)}
+                onFocus={() => setEmailFocus(true)}
+                onBlur={() => setEmailFocus(false)}
               />
             </Form.Group>
             <p
               id="uidnote"
               className={
-                firstNameFocus && userFirstName && !validFirstName
+                emailFocus && email && !validEmail
                   ? "instructions"
                   : "offscreen"
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
-              Vardą turi sudaryti nuo 2 iki 24 simbolių.
+              Kol kas dar ne el. pašto formatas :)
               <br />
-              <FontAwesomeIcon icon={faInfoCircle} />
-              Galimos tik raidės, įskaitant ir didžiąsias. <br />
+              {/* <FontAwesomeIcon icon={faInfoCircle} />
+              Galimos tik raidės, įskaitant ir didžiąsias. <br /> */}
             </p>
 
-            {/* ************* LAST NAME ********************************* */}
+            {/* ************* ROLE ********************************* */}
 
-            <Form.Group className="mb-3">
-              <Form.Label htmlFor="last_name">
-                Pavardė:
+            {/* <Form.Group className="mb-3">
+              <Form.Label htmlFor="role">
+                Rolė:
                 <FontAwesomeIcon
                   icon={faCheck}
-                  className={validLastName ? "valid" : "hide"}
+                  className={validRole ? "valid" : "hide"}
                 />
                 <FontAwesomeIcon
                   icon={faTimes}
                   className={
-                    validLastName || !userLastName ? "hide" : "invalid"
+                    validRole || !role ? "hide" : "invalid"
                   }
                 />
               </Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Pavardė"
-                id="last_name"
+                placeholder="Rolė"
+                id="role"
                 ref={userRef}
                 autoComplete="on"
-                onChange={(e) => setLastName(e.target.value)}
+                onChange={(e) => setRole(e.target.value)}
                 required
-                aria-invalid={validLastName ? "false" : "true"}
+                aria-invalid={validRole ? "false" : "true"}
                 aria-describedby="uidnote"
-                onFocus={() => setLastNameFocus(true)}
-                onBlur={() => setLastNameFocus(false)}
+                onFocus={() => setRoleFocus(true)}
+                onBlur={() => setRoleFocus(false)}
               />
             </Form.Group>
             <p
               id="uidnote"
               className={
-                lastNameFocus && userLastName && !validLastName
+                roleFocus && role && !validRole
                   ? "instructions"
                   : "offscreen"
               }
             >
               <FontAwesomeIcon icon={faInfoCircle} />
-              Pavardę turi sudaryti nuo 2 iki 24 simbolių.
+             Rolę turi sudaryti nuo 4 iki 5 simbolių.
               <br />
-              <FontAwesomeIcon icon={faInfoCircle} />
-              Galimos tik raidės, įskaitant ir didžiąsias. <br />
-            </p>
+              
+            </p> */}
 
             {/* ************** PASSWORD ******************************** */}
 
@@ -376,8 +386,8 @@ const Register = () => {
           </p>
         </section>
       )}
-    </>
+    </div>
   );
-};
+}
 
-export default Register;
+export default Register

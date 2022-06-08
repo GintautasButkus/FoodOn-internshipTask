@@ -6,6 +6,8 @@ import AuthContext from "../context/AuthProvider";
 import axios from "../api/axios";
 import '../styles/Login.css'
 import { Link } from "react-router-dom";
+import bg from "../img/login_bg.jpg"
+
 
 
 
@@ -63,8 +65,18 @@ const Login = () => {
     
   };
 
+  const style = {
+    backgroundImage: "url(" + bg + ")",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    position: "relative",
+    height: "100vh",
+    // width: "100%",
+    // display: "inline-block"
+  }
+
   return (
-    <div>
+    <div style={style}>
       {success ? (
         <section>
           <h1>Prisijungėte sėkmingai!</h1>

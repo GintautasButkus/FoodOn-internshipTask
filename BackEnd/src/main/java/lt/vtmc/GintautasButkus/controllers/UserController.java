@@ -27,7 +27,7 @@ import lt.vtmc.GintautasButkus.services.UserService;
 @Tag(name = "User Board", description = "Food On App Users")
 @RestController
 @RequestMapping("/api/auth/user")
-@PreAuthorize("hasRole('ROLE_USER')")
+
 public class UserController {
 	
 	@Autowired
@@ -39,16 +39,20 @@ public class UserController {
 		return userService.registerUser(signUpRequest);
 	}
 	
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/restaurant/{nameFragment}")
 	public List<Restaurant> getRestaurantsByName(@PathVariable String nameFragment) {
 		return userService.getRestaurantsByName(nameFragment);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/restaurant/{id}")
 	public Restaurant selectRestaurant(@PathVariable Long id) {
 		return userService.getRestaurantsById(id);
 	}
 	
+	@PreAuthorize("hasRole('ROLE_USER')")
 	@GetMapping("/menu/{id}")
 	public List<Menu> getRestaurantMenus(@PathVariable Long id) {
 		return userService.getMenu(id);

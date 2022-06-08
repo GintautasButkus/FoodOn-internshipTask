@@ -2,8 +2,11 @@ package lt.vtmc.GintautasButkus.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "roles")
+
 public class Role {
 
 	@Id

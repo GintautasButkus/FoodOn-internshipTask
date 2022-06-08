@@ -1,10 +1,21 @@
 package lt.vtmc.GintautasButkus.payloadRequest;
 
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.validation.constraints.*;
- 
-public class SignupRequest {
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+
+
+public class SignupRequest implements Serializable {
+	  private static final long serialVersionUID = 1L;
+	
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
@@ -14,13 +25,18 @@ public class SignupRequest {
     @Email
     private String email;
     
+    
     private Set<String> role;
     
-    @NotBlank
+    
+
+	@NotBlank
     @Size(min = 6, max = 40)
     private String password;
-  
-    public String getUsername() {
+    
+    
+
+	public String getUsername() {
         return username;
     }
  
