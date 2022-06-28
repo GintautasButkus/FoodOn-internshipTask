@@ -7,6 +7,8 @@ import axios from "../api/axios";
 import '../styles/Login.css'
 import { Link } from "react-router-dom";
 import bg from "../img/login_bg.jpg"
+import Restaurants from "./Restaurants";
+
 
 
 
@@ -70,21 +72,14 @@ const Login = () => {
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     position: "relative",
-    height: "100vh",
-    // width: "100%",
-    // display: "inline-block"
+    height: "90vh",
+    "margin-top":"-120px"
   }
 
   return (
     <div style={style}>
       {success ? (
-        <section>
-          <h1>Prisijungėte sėkmingai!</h1>
-          <br />
-          <p>
-            <a href="#">Titulinis</a>
-          </p>
-        </section>
+        window.location.href = '/restaurants'
       ) : (
         <section>
           <p
@@ -130,10 +125,10 @@ const Login = () => {
             </Button>
           </Form>
           <p>
-            Registruotis?
-            <br />
+            
+         
             <span className="line">
-              <Link to="/registration">Registruotis</Link>
+              <Link to="/register" style={{"color": "grey"}}>Registruotis?</Link>
             </span>
           </p>
         </section>

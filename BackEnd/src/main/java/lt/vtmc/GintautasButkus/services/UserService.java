@@ -17,8 +17,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import lt.vtmc.GintautasButkus.exceptions.NoDishExistException;
 import lt.vtmc.GintautasButkus.exceptions.NoMenuExistsException;
 import lt.vtmc.GintautasButkus.exceptions.NoRestaurantExistsException;
+import lt.vtmc.GintautasButkus.models.Dish;
 import lt.vtmc.GintautasButkus.models.ERole;
 import lt.vtmc.GintautasButkus.models.Menu;
 import lt.vtmc.GintautasButkus.models.Restaurant;
@@ -175,5 +177,19 @@ public class UserService {
 			username = authentication.toString();
 		}
 		return username;
+	}
+	
+//	 ***************** GET ALL RESTAURANTS ***************************************************
+	public List<Restaurant> getAllRestaurants(){
+		return restaurantRepository.findAll();
+	}
+	
+//	 ***************** GET ALL Dishes ***************************************************
+	public List<Dish> getAllDishes(Long id) {
+		if (menuRepository.findById(id).isPresent()) {
+			return dishRepository.findAll().stream().filter(dish -> dish.getMenu().getMenuId() == id).collect(Collectors.toList());
+		} else {
+			throw new NoDishExistException("No dish exists in restaurant with id " + id);
+		}
 	}
 }

@@ -10,21 +10,19 @@
 
 html {
     font-size: 17px;
-    /* background-image: url(../img/login_bg.jpg); */
 }
 
 body {
-    /* margin-right: 5rem; */
-    /* background-image: url(../img/login_bg.jpg); */
     object-fit: fill;
     
     
 }
 
 .App {
+    margin: 0;
    color: rgb(41, 40, 40);
    width: 100%;
-   height: 100%;
+   height: 80%;
 }
 
 section {
@@ -32,8 +30,8 @@ section {
     margin:auto;
     max-width: 400px;
     max-height: 800px;
-    padding: 1rem;
-    margin-top: 8rem;
+    /* padding: 1rem; */
+    margin-top: 10rem;
     background: rgb(65,157,246);
     background: linear-gradient(180deg, rgba(230, 240, 250, 0.8) 16%, rgba(255, 255, 255, 0.4) 65%);
 }
@@ -49,7 +47,7 @@ Form.Group {
     flex-direction: column;
     justify-content: space-evenly;
     flex-grow: 1;
-    padding-bottom: 1rem;
+    /* padding-bottom: 1rem; */
 }
 
 a, a:visited {

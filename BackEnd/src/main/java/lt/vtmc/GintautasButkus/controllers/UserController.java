@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lt.vtmc.GintautasButkus.models.Dish;
 import lt.vtmc.GintautasButkus.models.Menu;
 import lt.vtmc.GintautasButkus.models.Restaurant;
 import lt.vtmc.GintautasButkus.payloadRequest.SignupRequest;
+import lt.vtmc.GintautasButkus.services.AdminService;
 import lt.vtmc.GintautasButkus.services.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -32,6 +34,7 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
 	
 	
 	@PostMapping("/signup")
@@ -52,12 +55,20 @@ public class UserController {
 		return userService.getRestaurantsById(id);
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+//	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
 	@GetMapping("/menu/{id}")
 	public List<Menu> getRestaurantMenus(@PathVariable Long id) {
 		return userService.getMenu(id);
 	}
 	
-
-
-}
+	@GetMapping("/dish/{id}")
+	public List<Dish> getAllDishes(@PathVariable Long id) {
+		return userService.getAllDishes(id);
+	}
+	
+	@GetMapping("/restaurants")
+	public List<Restaurant> getAllRestaurants(){
+		return userService.getAllRestaurants();
+	}
+	
+	}

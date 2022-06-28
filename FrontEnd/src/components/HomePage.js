@@ -39,11 +39,11 @@ function LandingFrameMessage() {
     return <div style={style}>
         
         
-        <div style={{"fontSize": "96px", "margin-left":"-10px"}}>
+        <div style={{"fontSize": "5rem", "margin-left":"-10px", "margin-top":"-100px"}}>
             Maistas kuris veža!!
         </div>
         
-        <div style={{"fontSize": "36px"}}>
+        <div style={{"fontSize": "2rem"}}>
             Išsirink mėgstamiausią užkandinę.<br/>
             Susirask mėgstamiausius skonius.<br/>
             Ir važiuok patreniruoti skrandžio ten!!!<br/>

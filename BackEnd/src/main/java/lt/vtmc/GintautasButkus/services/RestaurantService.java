@@ -17,10 +17,10 @@ public class RestaurantService {
 	@Autowired
 	RestaurantRepository restaurantRepository;
 
-	public void addRestaurant(String restaurantName, String address, Restaurant restaurantDetails) {
-		String code = UUID.randomUUID().toString();
-		Restaurant restaurant = new Restaurant(restaurantName, code, address);
-		restaurantRepository.save(restaurant);
+	public void addRestaurant(Restaurant restaurantDetails) {
+//		String code = UUID.randomUUID().toString();
+//		Restaurant restaurant = new Restaurant(restaurantName, code, address);
+		restaurantRepository.save(restaurantDetails);
 	}
 	
 	public void deleteRestaurant(Long id) {

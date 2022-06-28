@@ -132,6 +132,7 @@ const Register = () => {
     backgroundSize: "cover",
     position: "relative",
     height: "100vh",
+    "margin-top":"-170px"
     // width: "100%",
     // display: "inline-block"
   }
@@ -381,7 +382,7 @@ const Register = () => {
             Jau užsiregistravęs?
             <br />
             <span className="line">
-              <Link to="/">Prisijungti</Link>
+              <Link to="/login">Prisijungti</Link>
             </span>
           </p>
         </section>
